@@ -1,9 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
     namespace 'com.lib.fcm'
     compileSdk 33
 
@@ -43,4 +50,17 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = 'com.github.Vitya-prog'
+            artifactId = 'FcmLib'
+            version = '0.0.0'
+            afterEvaluate{
+                from components.release
+            }
+        }
+    }
 }
